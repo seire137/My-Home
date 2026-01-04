@@ -81,7 +81,7 @@
 <div class="player-card">
     <div id="albumArt" class="album-art"></div>
     <div id="songName" class="song-name">로딩 중...</div>
-    <div id="pairName" class="pair-name">데이터 로드 중</div>
+    <div id="pairName" class="pair-name">로딩 중...</div>
     
     <div class="progress-bar"><div class="progress-current"></div></div>
 
@@ -99,8 +99,7 @@
     let posts = [];
     let currentIndex = 0;
 
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycby6wtp_vKh5ie5SBSHY5x0LwlMWkPjeTbed5vy8UZUGXlrNmEzaWb483F-vh12LBJS3/exec';
-
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxEj4DbWUYE1Zs-C3mwqDUVSSoHkIQq-GjEK_xIlFxaWMipkMk5kpM_0cvotAdeH3pM/exec'
     function loadData() {
         fetch(SHEET_URL)
             .then(response => response.json())
