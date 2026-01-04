@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Playlist</title>
+    <title>My Playelist</title>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 
     <style>
@@ -22,34 +24,31 @@
 
         .player-card {
             width: 100%; max-width: 400px; padding: 25px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(30px);
-            border-radius: 40px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            position: relative;
-            margin-right: 40px;
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(30px);
+            border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white; position: relative; margin-right: 40px;
         }
 
-        /* 사이드바 컨트롤 */
+        /* 우측 사이드바: 아이콘 거리를 40px로 띄움 */
         .side-controls {
             position: absolute; right: -55px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 25px; align-items: center;
+            display: flex; flex-direction: column; 
+            gap: 40px; /* 기존 25px에서 40px로 확대 */
+            align-items: center;
         }
 
         .side-btn {
             background: none; border: none; color: white;
-            font-size: 1.4rem; cursor: pointer; opacity: 0.6;
+            font-size: 1.5rem; cursor: pointer; opacity: 0.6;
             transition: opacity 0.2s, transform 0.2s;
         }
         .side-btn:hover { opacity: 1; transform: scale(1.1); }
         .side-btn.active { opacity: 1; color: #ff2d55; }
 
         .album-art {
-            width: 100%; aspect-ratio: 1 / 1; 
-            border-radius: 20px; background-size: cover; background-position: center;
+            width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; 
+            background-size: cover; background-position: center;
             margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             background-color: rgba(0,0,0,0.1);
         }
@@ -62,7 +61,8 @@
         .song-name { font-size: 1.3rem; font-weight: 700; margin: 0; word-break: keep-all; }
         .pair-name { font-size: 1rem; opacity: 0.7; margin: 3px 0 0 0; }
         
-        .wave-icon { font-size: 1.2rem; opacity: 0.5; color: white; }
+        /* 음파 무늬: 요청하신 fi-br-waveform-path 적용 */
+        .wave-icon { font-size: 1.4rem; opacity: 0.5; color: white; }
 
         .progress-section { margin-bottom: 25px; }
         .progress-bar { 
@@ -73,10 +73,12 @@
         .time-group { display: flex; justify-content: space-between; font-size: 0.75rem; opacity: 0.6; }
 
         .controls { display: flex; justify-content: space-around; align-items: center; margin-bottom: 10px; }
-        .btn { background: none; border: none; color: white; font-size: 2rem; cursor: pointer; opacity: 0.9; }
-        .btn-play { font-size: 3.2rem; }
+        
+        /* 이전/다음 버튼 크기 확대 (2.4rem) */
+        .btn { background: none; border: none; color: white; font-size: 2.4rem; cursor: pointer; opacity: 0.9; }
+        .btn-play { font-size: 3.4rem; }
+        .btn:active { transform: scale(0.9); opacity: 0.6; }
 
-        /* 하단 디바이스 버튼: My Blog 유지 */
         .device-selector {
             display: flex; justify-content: center; align-items: center;
             margin-top: 15px; font-size: 0.8rem;
@@ -94,10 +96,7 @@
 
 <div class="player-card">
     <div class="side-controls">
-        <button class="side-btn" id="heartBtn" onclick="toggleHeart()"><i class="fi fi-rr-heart"></i></button>
-        <button class="side-btn" onclick="goHome()"><i class="fi fi-rr-music-alt"></i></button>
-        <button class="side-btn" style="cursor: default; opacity: 0.4;"><i class="fi fi-rr-intercom"></i></button>
-    </div>
+        <button class="side-btn" id="heartBtn" onclick="toggleHeart()"><i class="fi fi-ss-heart"></i></button> <button class="side-btn" onclick="goHome()"><i class="fi fi-ss-music-alt"></i></button> <button class="side-btn" style="cursor: default; opacity: 0.4;"><i class="fi fi-sr-broadcast-tower"></i></button> </div>
 
     <div id="albumArt" class="album-art"></div>
 
@@ -106,7 +105,7 @@
             <h1 id="songName" class="song-name">로딩 중...</h1>
             <p id="pairName" class="pair-name">데이터 로드 중</p>
         </div>
-        <div class="wave-icon"><i class="fi fi-rr-stats"></i></div>
+        <div class="wave-icon"><i class="fi fi-br-waveform-path"></i></div>
     </div>
     
     <div class="progress-section">
@@ -159,11 +158,11 @@
         if (posts.length > 0 && posts[currentIndex].url) window.location.href = posts[currentIndex].url;
     }
     function goHome() { window.location.href = 'index.html'; }
+
+    // 하트 토글 (색상만 변경되도록 설정)
     function toggleHeart() {
         const btn = document.getElementById('heartBtn');
         btn.classList.toggle('active');
-        const icon = btn.querySelector('i');
-        icon.className = btn.classList.contains('active') ? 'fi fi-sr-heart' : 'fi fi-rr-heart';
     }
 
     loadData();
