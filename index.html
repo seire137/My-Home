@@ -66,60 +66,51 @@
 </div>
 
 <script>
-    let posts = []; // 데이터를 담을 빈 리스트입니다.
+    let posts = [];
     let currentIndex = 0;
 
-    // 구글 시트 웹 앱 URL을 여기에 넣으세요!
     const SHEET_URL = 'https://script.google.com/macros/s/AKfycby6wtp_vKh5ie5SBSHY5x0LwlMWkPjeTbed5vy8UZUGXlrNmEzaWb483F-vh12LBJS3/exec';
 
-    // 1. 데이터 불러오기 함수
     function loadData() {
-        if(SHEET_URL === '여기에_구글_웹_앱_URL을_넣으세요') {
-            alert('구글 시트 URL을 먼저 넣어주세요!');
-            return;
-        }
-
         fetch(SHEET_URL)
             .then(response => response.json())
             .then(data => {
-                posts = data; // 불러온 데이터를 리스트에 할당합니다.
-                updatePlayer(); // 화면을 업데이트합니다.
+                console.log("불러온 데이터:", data); // 브라우저 콘솔에서 데이터를 확인해보세요!
+                posts = data;
+                updatePlayer();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert("데이터를 불러오는 데 실패했습니다.");
+            });
     }
 
-    // 2. 화면 업데이트 함수
     function updatePlayer() {
         if (posts.length === 0) return;
         
         const post = posts[currentIndex];
-        document.getElementById('songName').innerText = post.title;
-        document.getElementById('pairName').innerText = post.tags;
         
-        const imgUrl = `url('${post.img}')`;
-        document.getElementById('albumArt').style.backgroundImage = imgUrl;
-        document.getElementById('bgWrapper').style.backgroundImage = imgUrl;
+        // 1. Category 이름 반영 (대소문자 주의!)
+        document.getElementById('songName').innerText = post.title || "제목 없음";
+        document.getElementById('pairName').innerText = post.Category || "카테고리 없음";
+        
+        // 2. 이미지 주소 확인 및 적용
+        if (post.img) {
+            const imgUrl = `url('${post.img}')`;
+            document.getElementById('albumArt').style.backgroundImage = imgUrl;
+            document.getElementById('bgWrapper').style.backgroundImage = imgUrl;
+        } else {
+            // 이미지가 없을 때의 기본 배경색
+            document.getElementById('albumArt').style.backgroundColor = "#666";
+        }
     }
 
-    // 3. 버튼 기능들 (파이썬의 인덱스 연산과 비슷합니다)
-    function nextPost() { 
-        if (posts.length === 0) return;
-        currentIndex = (currentIndex + 1) % posts.length; 
-        updatePlayer(); 
-    }
-    function prevPost() { 
-        if (posts.length === 0) return;
-        currentIndex = (currentIndex - 1 + posts.length) % posts.length; 
-        updatePlayer(); 
-    }
-    function enterPost() { 
-        if (posts.length === 0) return;
-        window.location.href = posts[currentIndex].url; 
-    }
-    function openMenu() { alert("게시글 목록을 준비 중입니다."); }
-    function toggleShuffle() { alert("셔플 기능을 켭니다."); }
+    function nextPost() { if (posts.length > 0) { currentIndex = (currentIndex + 1) % posts.length; updatePlayer(); } }
+    function prevPost() { if (posts.length > 0) { currentIndex = (currentIndex - 1 + posts.length) % posts.length; updatePlayer(); } }
+    function enterPost() { if (posts.length > 0) window.location.href = posts[currentIndex].url; }
+    function openMenu() { alert("메뉴 준비 중"); }
+    function toggleShuffle() { alert("셔플 모드"); }
 
-    // 사이트 접속 시 실행
     loadData();
 </script>
 
