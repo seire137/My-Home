@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>성윤</title>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Arial', sans-serif; color: #333; background-color: white;
+        }
+        /* 상단 내비게이션 바 */
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; background: white;
+            position: sticky; top: 0; z-index: 10; /* 상단 고정 */
+        }
+        .nav-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333; padding: 5px; }
+        .nav-right { display: flex; gap: 15px; }
+        
+        /* 하트 아이콘 스타일 */
+        .heart-btn i { transition: color 0.2s, transform 0.2s; }
+        .heart-btn.active i { color: red; /* 활성화되면 빨간색 */ }
+        .heart-btn:active i { transform: scale(1.2); /* 클릭 시 살짝 커짐 */ }
+
+        /* 메인 콘텐츠 컨테이너 */
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+
+        /* 제목 */
+        .post-title { font-size: 1.8rem; font-weight: bold; margin-bottom: 10px; }
+        .post-meta { color: #777; font-size: 0.9rem; margin-bottom: 20px; }
+
+        /* 메인 이미지 영역 */
+        .post-image {
+            width: 100%; aspect-ratio: 1 / 1; /* 정사각형 유지 */
+            background-color: #eee; border-radius: 15px;
+            background-size: cover; background-position: center;
+            /* 여기에 게시글 이미지 주소를 넣으세요 */
+            background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FQN1aR%2FbtsMTEhu3wt%2FAAAAAAAAAAAAAAAAAAAAANtVnWjs9c6znns4nus_GUR6TcrTs4fA7qTxf2nWpSUL%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DgFYVkl2aO%252BjeMBTZHl%252F1erAscB4%253D'); 
+            margin-bottom: 30px;
+        }
+
+        /* 회색 구분선 */
+        .divider { height: 1px; background-color: #ddd; border: none; margin: 30px 0; }
+
+        /* 게시글 본문 */
+        .post-content { font-size: 1rem; line-height: 1.6; color: #444; white-space: pre-wrap; /* 줄바꿈 유지 */ }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <button class="nav-btn" onclick="history.back()"><i class="fi fi-rr-angle-left"></i></button>
+    <div class="nav-right">
+        <button class="nav-btn heart-btn" onclick="toggleHeart(this)">
+            <i class="fi fi-rr-heart"></i>
+        </button>
+        <button class="nav-btn"><i class="fi fi-rr-menu-dots-vertical"></i></button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="post-title">여기에 게시글 제목을 적으세요</div>
+    <div class="post-meta">작성자 | 날짜</div>
+
+    <div class="post-image"></div>
+
+    <hr class="divider">
+
+    <div class="post-content">
+ⓒ 김다냥님
+커플링 커미션
+    </div>
+</div>
+
+<script>
+    // 하트 토글 기능
+    function toggleHeart(btn) {
+        btn.classList.toggle('active'); // 버튼에 'active' 클래스를 넣었다 뺐다 함
+        const icon = btn.querySelector('i');
+        if (btn.classList.contains('active')) {
+            // 활성화되면 꽉 찬 하트로 변경
+            icon.className = 'fi fi-sr-heart'; 
+        } else {
+            // 비활성화되면 빈 하트로 변경
+            icon.className = 'fi fi-rr-heart'; 
+        }
+    }
+</script>
+
+</body>
+</html>
