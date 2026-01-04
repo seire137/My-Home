@@ -4,102 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>My Player Blog</title>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 
     <style>
-        /* 전체 페이지 설정 */
         body {
-            margin: 0; 
-            padding: 30px; /* 핵심: 화면 테두리에 30px의 안전 여백을 줍니다 */
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            min-height: 100vh; /* 최소 높이를 화면 전체로 잡되, 내용이 많으면 늘어남 */
-            box-sizing: border-box; /* 패딩이 전체 크기에 포함되도록 설정 */
-            font-family: 'Arial', sans-serif; color: white;
-            background-color: #4a4a4a; transition: background 0.5s ease;
-            /* overflow: hidden; 제거 -> 그림자가 잘리는 주원인이었습니다 */
+            margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #4a4a4a; box-sizing: border-box;
         }
 
-        /* 배경 흐림 효과 레이어 */
         #bgWrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-size: cover; background-position: center;
-            /* 테두리 부근의 흐림 효과가 어색하지 않게 스케일을 조금 더 키웁니다 */
-            filter: blur(60px) brightness(0.6); transform: scale(1.3); transition: background-image 0.5s ease;
+            filter: blur(60px) brightness(0.7); transform: scale(1.3); transition: background-image 0.5s ease;
         }
 
-        /* 플레이어 카드 메인 스타일 */
+        /* 메인 플레이어 카드 */
         .player-card {
-            /* 핵심: 너비를 유연하게 변경 */
-            width: 100%; /* 기본적으로 주어진 공간(body 패딩 안쪽)을 꽉 채움 */
-            max-width: 380px; /* 하지만 380px보다는 커지지 않음 (PC 화면 고려) */
-            
-            padding: 30px; text-align: center;
-            background: rgba(212, 212, 217, 0.65);
-            backdrop-filter: blur(15px);
-            border-radius: 30px; 
-            border: 2px solid #D4D4D9;
-            /* 그림자가 퍼지는 정도(50px)를 고려해 body 패딩을 설정했습니다 */
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            width: 100%; max-width: 380px; padding: 25px;
+            background: rgba(255, 255, 255, 0.2); /* 반투명 흰색 */
+            backdrop-filter: blur(30px);
+            border-radius: 40px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
             box-sizing: border-box;
-            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            oncontextmenu: return false; /* 우클릭 방지 유지 */
         }
 
+        /* 앨범 아트 */
         .album-art {
-            width: 100%; aspect-ratio: 1 / 1; background-color: #666;
+            width: 100%; aspect-ratio: 1 / 1; 
             border-radius: 20px; background-size: cover; background-position: center;
-            margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            background-color: rgba(0,0,0,0.1);
         }
 
-        .song-name { font-size: 1.6rem; font-weight: bold; margin: 10px 0; color: #333; word-break: keep-all; }
-        .pair-name { font-size: 1rem; color: #555; margin-bottom: 25px; word-break: keep-all; }
-
-        .progress-bar { width: 100%; height: 4px; background: rgba(0,0,0,0.1); border-radius: 2px; margin-bottom: 30px; }
-        .progress-current { width: 45%; height: 100%; background: #333; border-radius: 2px; }
-
-        .controls { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-
-        .btn { 
-            background: none; border: none; color: #333; 
-            font-size: 1.4rem; cursor: pointer; opacity: 0.8; 
-            width: 45px; height: 45px;
-            display: flex; align-items: center; justify-content: center; 
-            transition: transform 0.2s;
+        /* 정보 섹션 (제목/태그 + 하트) */
+        .info-section {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; text-align: left;
         }
-        .btn:hover { opacity: 1; transform: scale(1.1); }
-        .btn-play { font-size: 2.8rem; width: 60px; height: 60px; }
-        .btn i { display: flex; }
+        .text-group { flex: 1; overflow: hidden; padding-right: 15px; }
+        .song-name { font-size: 1.3rem; font-weight: 700; margin: 0; word-break: keep-all; }
+        .pair-name { font-size: 1rem; opacity: 0.7; margin: 3px 0 0 0; }
+        
+        /* 하트(메뉴) 버튼 */
+        .heart-menu-btn { 
+            background: none; border: none; color: white; font-size: 1.5rem; 
+            cursor: pointer; opacity: 0.8; transition: transform 0.2s;
+        }
+        .heart-menu-btn:active { transform: scale(0.9); }
+
+        /* 프로그레스 바 영역 */
+        .progress-section { margin-bottom: 25px; }
+        .progress-bar { 
+            width: 100%; height: 5px; background: rgba(255,255,255,0.2); 
+            border-radius: 10px; position: relative; margin-bottom: 8px;
+        }
+        .progress-current { width: 45%; height: 100%; background: white; border-radius: 10px; }
+        .time-group { display: flex; justify-content: space-between; font-size: 0.75rem; opacity: 0.6; }
+
+        /* 재생 컨트롤 */
+        .controls { display: flex; justify-content: space-around; align-items: center; margin-bottom: 15px; }
+        .btn { background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; opacity: 0.9; }
+        .btn-play { font-size: 2.8rem; }
+        .btn:active { opacity: 0.6; transform: scale(0.95); }
+
+        /* 하단 장치 선택 아이콘 (사진의 iPhone 버튼 스타일) */
+        .device-selector {
+            display: flex; justify-content: center; align-items: center;
+            margin-top: 10px; font-size: 0.8rem; opacity: 0.7;
+        }
+        .device-btn {
+            background: rgba(255,255,255,0.1); border: none; color: white;
+            padding: 6px 15px; border-radius: 20px; cursor: pointer;
+            display: flex; align-items: center; gap: 5px;
+        }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
 
 <div id="bgWrapper"></div>
 
 <div class="player-card">
     <div id="albumArt" class="album-art"></div>
-    <div id="songName" class="song-name">로딩 중...</div>
-    <div id="pairName" class="pair-name">로딩 중...</div>
+
+    <div class="info-section">
+        <div class="text-group">
+            <h1 id="songName" class="song-name">로딩 중...</h1>
+            <p id="pairName" class="pair-name">데이터 로드 중</p>
+        </div>
+        <button class="heart-menu-btn" onclick="openMenu()"><i class="fi fi-rr-heart"></i></button>
+    </div>
     
-    <div class="progress-bar"><div class="progress-current"></div></div>
+    <div class="progress-section">
+        <div class="progress-bar">
+            <div class="progress-current"></div>
+        </div>
+        <div class="time-group">
+            <span>3:13</span>
+            <span>-0:48</span>
+        </div>
+    </div>
 
     <div class="controls">
-        <button class="btn" onclick="toggleShuffle()"><i class="fi fi-br-shuffle"></i></button> 
         <button class="btn" onclick="prevPost()"><i class="fi fi-sr-rewind"></i></button> 
         <button class="btn btn-play" onclick="enterPost()"><i class="fi fi-sr-play"></i></button> 
         <button class="btn" onclick="nextPost()"><i class="fi fi-sr-forward"></i></button> 
-        <button class="btn" onclick="openMenu()"><i class="fi fi-br-list"></i></button> 
+    </div>
+
+    <div class="device-selector">
+        <button class="device-btn"><i class="fi fi-rr-computer"></i> My Blog</button>
     </div>
 </div>
 
 <script>
-    // 스크립트 부분도 기존과 동일합니다
     let posts = [];
     let currentIndex = 0;
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycby6wtp_vKh5ie5SBSHY5x0LwlMWkPjeTbed5vy8UZUGXlrNmEzaWb483F-vh12LBJS3/exec';
 
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxEj4DbWUYE1Zs-C3mwqDUVSSoHkIQq-GjEK_xIlFxaWMipkMk5kpM_0cvotAdeH3pM/exec'
     function loadData() {
         fetch(SHEET_URL)
             .then(response => response.json())
@@ -125,21 +150,20 @@
 
     function nextPost() { if (posts.length > 0) { currentIndex = (currentIndex + 1) % posts.length; updatePlayer(); } }
     function prevPost() { if (posts.length > 0) { currentIndex = (currentIndex - 1 + posts.length) % posts.length; updatePlayer(); } }
-    // index.html의 script 태그 안
-    function enterPost() {
+    
+    // 옵션 A: 현재 창에서 바로 이동
+    function enterPost() { 
         if (posts.length > 0) {
             const targetUrl = posts[currentIndex].url;
-            if (targetUrl) {
-                // 현재 창에서 바로 이동합니다.
-                window.location.href = targetUrl;
-            } else {
-                alert("연결된 링크가 없습니다.");
-            }
+            if (targetUrl) window.location.href = targetUrl;
         }
     }
 
-    function openMenu() { alert("목록 메뉴"); }
-    function toggleShuffle() { alert("셔플 모드"); }
+    // 하트 버튼을 눌렀을 때 실행되는 메뉴 기능
+    function openMenu() { 
+        alert("게시글 목록 메뉴를 엽니다."); 
+        // 차후에 게시글 전체 목록을 띄우는 팝업 등을 여기에 구현할 수 있습니다.
+    }
 
     loadData();
 </script>
