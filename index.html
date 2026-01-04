@@ -125,7 +125,19 @@
 
     function nextPost() { if (posts.length > 0) { currentIndex = (currentIndex + 1) % posts.length; updatePlayer(); } }
     function prevPost() { if (posts.length > 0) { currentIndex = (currentIndex - 1 + posts.length) % posts.length; updatePlayer(); } }
-    function enterPost() { if (posts.length > 0) window.location.href = posts[currentIndex].url; }
+    // index.html의 script 태그 안
+    function enterPost() {
+        if (posts.length > 0) {
+            const targetUrl = posts[currentIndex].url;
+            if (targetUrl) {
+                // 현재 창에서 바로 이동합니다.
+                window.location.href = targetUrl;
+            } else {
+                alert("연결된 링크가 없습니다.");
+            }
+        }
+    }
+
     function openMenu() { alert("목록 메뉴"); }
     function toggleShuffle() { alert("셔플 모드"); }
 
